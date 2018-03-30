@@ -1,2 +1,4 @@
 /node_modules
-/chromedriver
+chromedriver
+client_secret.json
+data.json
