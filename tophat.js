@@ -53,8 +53,7 @@ exports.createStudentAccounts =  async function(professor) {
         await driver.wait(until.elementLocated(By.className("prepaid")))
         await driver.findElement(By.className("prepaid")).click()
 
-        await driver.sleep(40000)
-
+        return
      }, 2000 )
   } finally {
     console.log('ready')
