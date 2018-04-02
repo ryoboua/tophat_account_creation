@@ -9,7 +9,7 @@ const ACCOUNTS = []
 const getAccounts = () => {
     const worm = setInterval(() => {
         
-        if(index === 1) return clearInterval(worm)
+        if(index === 10) return clearInterval(worm)
         csv
         .fromStream(stream, {headers : true})
         .on("data", function(data){
@@ -19,13 +19,13 @@ const getAccounts = () => {
             sendOff()
         });
         index++
-    },1000)
+    },10000)
 
 
 }
 
 const sendOff = () => {
-    let accounts = ACCOUNTS.slice((295))
+    let accounts = ACCOUNTS.slice((296))
 
         let professor = {
             firstName: accounts[index].FirstName,
