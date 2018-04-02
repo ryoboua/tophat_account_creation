@@ -40,26 +40,33 @@ exports.createStudentAccounts =  async function(professor) {
         await driver.findElement(By.id("acceptedTerms")).click()
         //Click Next
         await driver.wait(until.elementLocated(By.className("sc-bZQynM bQXXNe")))
+        await driver.sleep(1000)
         await driver.findElement(By.className("sc-bZQynM bQXXNe")).click()
 
         await driver.wait(until.elementLocated(By.className("skip-step-link__link")))
+        await driver.sleep(500)
         await driver.findElement(By.className("skip-step-link__link")).click()
 
         await driver.wait(until.elementLocated(By.className("skip-step-link__link")))
+        await driver.sleep(500)
         await driver.findElement(By.className("skip-step-link__link")).click()
 
         await driver.wait(until.elementLocated(By.className("sc-bZQynM bQXXNe")))
         await driver.findElement(By.className("sc-bZQynM bQXXNe")).click()
+        await driver.sleep(500)
         await driver.wait(until.elementLocated(By.className("prepaid")))
         await driver.findElement(By.className("prepaid")).click()
-
+        await driver.sleep(500)
 
         await driver.wait(until.elementLocated(By.id("subscription_code")))
+        await driver.sleep(500)
         await driver.findElement(By.id("subscription_code")).sendKeys("usjixtedkigyus")
 
         let subscriptionForm = await driver.findElement(By.id("simple-modal"))
         await subscriptionForm.findElement(By.className("btn btn-primary")).click()
 
+        await driver.wait(until.elementLocated(By.className("thank-you")))
+        await driver.sleep(2000)
         return driver.close()
 
 

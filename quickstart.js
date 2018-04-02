@@ -25,7 +25,7 @@ const getAccounts = () => {
 }
 
 const sendOff = () => {
-    let accounts = ACCOUNTS.slice((291))
+    let accounts = ACCOUNTS.slice((295))
 
         let professor = {
             firstName: accounts[index].FirstName,
