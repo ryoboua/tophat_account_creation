@@ -27,7 +27,7 @@ exports.createStudentTrialAccounts = async function() {
 
 
 exports.createStudentAccounts =  async function(professor) {
-  let driver = await new Builder().forBrowser('chrome').build();
+  let driver = await new Builder().forBrowser('firefox').build();
   try {
     await driver.get('https://app.tophat.com/register/student/org/5042/join_code/936445/info/');
      setTimeout(async () => {
@@ -52,6 +52,16 @@ exports.createStudentAccounts =  async function(professor) {
         await driver.findElement(By.className("sc-bZQynM bQXXNe")).click()
         await driver.wait(until.elementLocated(By.className("prepaid")))
         await driver.findElement(By.className("prepaid")).click()
+
+
+        await driver.wait(until.elementLocated(By.id("subscription_code")))
+        await driver.findElement(By.id("subscription_code")).sendKeys("usjixtedkigyus")
+
+        let subscriptionForm = await driver.findElement(By.id("simple-modal"))
+        await subscriptionForm.findElement(By.className("btn btn-primary")).click()
+
+        return driver.close()
+
 
         return
      }, 2000 )

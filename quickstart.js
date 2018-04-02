@@ -19,13 +19,13 @@ const getAccounts = () => {
             sendOff()
         });
         index++
-    },10000)
+    },1000)
 
 
 }
 
 const sendOff = () => {
-    let accounts = ACCOUNTS.slice((398))
+    let accounts = ACCOUNTS.slice((291))
 
         let professor = {
             firstName: accounts[index].FirstName,
