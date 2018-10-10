@@ -1,10 +1,15 @@
 const fs = require('fs');
 const csv = require('fast-csv')
-const {Builder, By, Key, until} = require('selenium-webdriver');
+const colors = require('colors')
+const {Builder, By, Key, until, browser } = require('selenium-webdriver');
+
 const stream = fs.createReadStream("data.csv");
 
-var index = 0
+let index = 0
 const ACCOUNTS = []
+
+console.log("Top Hat Support Account Creator".bold.blue)
+console.log("-------------------------------")
 
 const getAccounts = () => {
         csv
@@ -18,87 +23,34 @@ const getAccounts = () => {
 }
 
 const sendOff = () => {
+    console.log("Creating student trial accounts...".green.bold)
     //createStudentAccounts(ACCOUNTS)
     createStudentTrialAccounts(ACCOUNTS)
-
 }
+
+stream.on("error", (err) => {
+    console.log("Error trying to open file:".red.bold)
+    console.log(err)
+    console.log("-------------------")
+    console.log("Make sure your file is named data.csv and is in this directory and try again".green)
+})
 
 getAccounts()
 
-
-// const createStudentAccounts =  async function([professor, ...tail]) {
-//     if(index === 80) return
-//     console.log('Trying to Create Account ' + professor.Email)
-
-//     let driver = await new Builder().forBrowser('firefox').build();
-//     try {
-//     await driver.get('https://app.tophat.com/register/student/org/4067/join_code/854744/info/');
-//     await driver.wait(until.elementLocated(By.className("create-account__content")))
-//     //Enter user information
-//     await driver.sleep(750)
-//     await driver.findElement(By.id("firstName")).sendKeys(professor.FirstName)
-//     await driver.findElement(By.id("lastName")).sendKeys(professor.LastName)
-//     await driver.findElement(By.id("email")).sendKeys(professor.Email)
-//     await driver.findElement(By.id("password")).sendKeys(professor.Password)
-//     await driver.sleep(750)
-//     //Check the terms and condition checkbox
-//     await driver.findElement(By.id("acceptedTerms")).click()
-//     //Click Next
-//     await driver.wait(until.elementLocated(By.className("sc-bZQynM bQXXNe"))
-//     , 5000)
-//     .then(
-//         async (data) => {
-//                 console.log('Created Account ' + professor.Email )
-//                 await driver.findElement(By.className("sc-bZQynM bQXXNe")).click()
-
-//                 await driver.wait(until.elementLocated(By.className("skip-step-link__link")))
-//                 await driver.sleep(500)
-//                 await driver.findElement(By.className("skip-step-link__link")).click()
-
-//                 await driver.wait(until.elementLocated(By.className("skip-step-link__link")))
-//                 await driver.sleep(500)
-//                 await driver.findElement(By.className("skip-step-link__link")).click()
-
-//                 await driver.wait(until.elementLocated(By.className("sc-bZQynM bQXXNe")))
-//                 await driver.findElement(By.className("sc-bZQynM bQXXNe")).click()
-//                 // await driver.sleep(500)
-//                 // await driver.wait(until.elementLocated(By.className("prepaid")))
-//                 // await driver.findElement(By.className("prepaid")).click()
-//                 // await driver.sleep(500)
-
-//                 // await driver.wait(until.elementLocated(By.id("subscription_code")))
-//                 // await driver.sleep(500)
-//                 // await driver.findElement(By.id("subscription_code")).sendKeys("usbinbowcebzeb")
-
-//                 // let subscriptionForm = await driver.findElement(By.id("simple-modal"))
-//                 // await subscriptionForm.findElement(By.className("btn btn-primary")).click()
-
-//                 // await driver.wait(until.elementLocated(By.className("thank-you")))
-//                 console.log('Subscription Succesfully applied for ' + professor.Email + '\n')
-//                 await driver.sleep(2000)
-//                 await driver.quit()
-//                 index++
-//                 return createStudentAccounts(tail)
-//         }
-//     ,
-//         async (data) => {
-//             await driver.quit()
-//             return createStudentAccounts([professor, ...tail])
-//         }
-//     )
-
-//     } catch(error) {
-//         console.log(error)
-//         }
-// }
-
 const createStudentTrialAccounts = async function([professor, ...tail]) {
-    if(index === 100) return
-    console.log('Trying to Create Account ' + professor.Email)
+    if(index === 500) {
+        console.log('---')
+        console.log('Script completed at index'.bold.yellow, index)
+        return
+    }
+
+    console.log('---')
+    console.log('['+ colors.bold.red(index) + ']' + ' Creating account '.bold.yellow + professor.Email)
 
     let driver = await new Builder().forBrowser('firefox').build();
+
     try {
-        await driver.get('https://app.tophat.com/register/student/org/4067/join_code/854744/info/');
+        await driver.get(professor.URL);
         await driver.wait(until.elementLocated(By.className("create-account__content")))
         //Enter user information
         await driver.findElement(By.id("firstName")).sendKeys(professor.FirstName)
@@ -107,13 +59,21 @@ const createStudentTrialAccounts = async function([professor, ...tail]) {
         await driver.findElement(By.id("password")).sendKeys(professor.Password)
         //Check the terms and condition checkbox
         await driver.findElement(By.id("acceptedTerms")).click()
-        await driver.wait(until.elementLocated(By.className("s1cq3ann-0-sc-htpNat kzGVCR"))
+        // class for 7 day free trial
+        await driver.wait(until.elementLocated(By.className("s17nzqsj-0-Buttonsstyles__ButtonBase-jkTCjP pPRuv"))
         , 5000)
         .then(
             async () => {
-                await driver.findElement(By.className("s1cq3ann-0-sc-htpNat kzGVCR")).click()
+
+                // click 7 day free trial
+                // class changes from time to time so this has to be manually changed when it does change
+                await driver.findElement(By.className("s17nzqsj-0-Buttonsstyles__ButtonBase-jkTCjP pPRuv")).click()
                 //Click Okay
-                console.log('Created Account ' + professor.Email )
+
+               // click Yes to the free Trial modal
+                await driver.executeScript("document.querySelector('.modal_footer .s17nzqsj-0-Buttonsstyles__ButtonBase-dISeDz.cqJZvy').click()")
+                
+                console.log('['+ colors.bold.red(index) + ']' + 'Success! '.bold.green + 'Account created: '.yellow + professor.Email )
                 await driver.sleep(6000)
                 await driver.quit()
                 index++
@@ -128,7 +88,7 @@ const createStudentTrialAccounts = async function([professor, ...tail]) {
         )
 
     } catch(error) {
-      console.log(error)
+      console.log(colors.red.bold(error))
     }
   }
 

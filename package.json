@@ -9,6 +9,7 @@
   "author": "Reggie",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.3.2",
     "fast-csv": "^2.4.1",
     "googleapis": "^27.0.0",
     "node-fetch": "^2.1.2",
