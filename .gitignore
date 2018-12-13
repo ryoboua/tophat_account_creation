@@ -1,4 +1,4 @@
-/node_modules
+node_modules/
 chromedriver
 client_secret.json
 data.csv
