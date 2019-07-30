@@ -41,7 +41,7 @@ stream.on("error", err => {
 getAccounts();
 
 const createStudentTrialAccounts = async function([professor, ...tail]) {
-  if (index === 500 || index === ACCOUNTS.length - 1) {
+  if (index === 500 || index === ACCOUNTS.length) {
     // maybe check if we're at the end of the list?
     console.log("---");
     console.log("Script completed at index".bold.yellow, index);
@@ -64,9 +64,7 @@ const createStudentTrialAccounts = async function([professor, ...tail]) {
       professor.OrgId
     }/join_code/${professor.JoinCode}/info?source=course_link`;
     await driver.get(URL);
-    await driver.wait(
-      until.elementLocated(By.id("firstName"))
-    );
+    await driver.wait(until.elementLocated(By.id("firstName")));
     //Enter user information
     await driver.findElement(By.id("firstName")).sendKeys(professor.FirstName);
     await driver.findElement(By.id("lastName")).sendKeys(professor.LastName);
@@ -78,7 +76,9 @@ const createStudentTrialAccounts = async function([professor, ...tail]) {
     await driver
       .wait(
         until.elementLocated(
-          By.className("sc-1mdnioh-0-Buttonsstyles__ButtonBase-jkTCjP gBQMbH")
+          By.className(
+            "ButtonRaisedstyles__ButtonRaisedStyled-sc-1vpj04g-0 gFXzVs Buttonsstyles__ButtonBase-sc-1mdnioh-0 eCwmSn"
+          )
         ),
         5000
       )
@@ -89,7 +89,7 @@ const createStudentTrialAccounts = async function([professor, ...tail]) {
           await driver
             .findElement(
               By.className(
-                "sc-1mdnioh-0-Buttonsstyles__ButtonBase-jkTCjP gBQMbH"
+                "ButtonRaisedstyles__ButtonRaisedStyled-sc-1vpj04g-0 gFXzVs Buttonsstyles__ButtonBase-sc-1mdnioh-0 eCwmSn"
               )
             )
             .click();
@@ -97,7 +97,7 @@ const createStudentTrialAccounts = async function([professor, ...tail]) {
 
           // click Yes to the free Trial modal
           await driver.executeScript(
-            "document.querySelector('.modal_footer .sc-1mdnioh-0-Buttonsstyles__ButtonBase-dISeDz.laQOvo').click()"
+            "document.querySelector('.modal_footer .ButtonLinkstyles__ButtonLinkStyled-xfeiyk-0.cxvmWH.Buttonsstyles__ButtonBase-sc-1mdnioh-0.cBYcVE').click()"
           );
 
           console.log(
