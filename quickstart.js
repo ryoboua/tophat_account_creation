@@ -167,40 +167,21 @@ const createProfessorAccounts = async function([professor, ...tail]) {
           "ButtonRaisedstyles__ButtonRaisedStyled-sc-1vpj04g-0 krEhc Buttonsstyles__ButtonBase-sc-1mdnioh-0 eCwmSn"
         )
       )
-      .click();
-    //Click is a TA
-
-    await driver
-      .findElement(
-        By.className(
-          "ButtonRaisedstyles__ButtonRaisedStyled-sc-1vpj04g-0 krEhc Buttonsstyles__ButtonBase-sc-1mdnioh-0 eCwmSn"
-        )
-      )
-      .click();
-    await driver.findElement(By.linkText("Skip")).click();
-    await driver
-      .findElement(By.linkText("Teaching Assistant? Skip"))
       .click()
-      .then(
-        async () => {
-          console.log(
-            "[" +
-              colors.bold.red(index) +
-              "]" +
-              "Success! ".bold.green +
-              "Account created: ".yellow +
-              professor.Email
-          );
-          await driver.sleep(6000);
-          await driver.quit();
-          index++;
-          return createStudentTrialAccounts(tail);
-        },
-        async data => {
-          await driver.quit();
-          return createStudentTrialAccounts([professor, ...tail]);
-        }
-      );
+      .then(async data => {
+        console.log(
+          "[" +
+            colors.bold.red(index) +
+            "]" +
+            "Success! ".bold.green +
+            "Account created: ".yellow +
+            professor.Email
+        );
+        await driver.sleep(1000);
+        await driver.quit();
+        index++;
+        return createProfessorAccounts(tail);
+      });
   } catch (error) {
     console.log(colors.red.bold(error));
   }
